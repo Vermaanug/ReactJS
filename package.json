@@ -1,0 +1,29 @@
+{
+  "name": "reactjs",
+  "version": "1.0.0",
+  "description": "This is ReactJs Notes",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vermaanug/ReactJS.git"
+  },
+  "author": "Anurag Verma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vermaanug/ReactJS/issues"
+  },
+  "homepage": "https://github.com/Vermaanug/ReactJS#readme",
+  "devDependencies": {
+    "parcel": "^2.11.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "browserlist":[
+    "last 2 Chrome version"
+  ]
+}
