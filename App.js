@@ -1,25 +1,33 @@
 import React from "react";
-import ReactDOM  from "react-dom/client";
+import ReactDOM from "react-dom/client";
 
-const Parent = React.createElement(
-  "div",
-  { id: "Parent" },
-  React.createElement("div", { id: "child" }, [
-    React.createElement("h1", {}, "Welocome "),
-    React.createElement("h1", {}, "Welocome "),
-    React.createElement("h1", {}, "Hello I'm H1 tag"),
-    React.createElement("h2", {}, "Hello I'm H2 tag"),
-  ])
-);
+// This is core React
+// const heading = React.createElement("h1" , { id : "heading"} , "Hello From World");
 
-// const heading = React.createElement(
-//   "H1",
-//   { id: "heading ", Style: "color:red" },
-//   "Hello Wolrd Form Reacts"
-// );
+// This is how you create react element in jsx
+const jsxheading = <h1 id="heading">Welcome From JSX</h1>;
+
+
+//React Functional Component
+
+const Title = () => (
+    <h1> Namasate Reacts </h1>
+) 
+
+//Component Composition
+const HeadingComponent = () => (
+    <div>
+    {jsxheading}
+    <Title/>
+    <h1> Namasate React Functional Component </h1>
+    </div>
+)
+
+
+ 
+// const Heading2 = () => (
+//     <h1> Hello From Functional Component </h1>
+// )
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-// console.log(heading); //  return Object
-
-root.render(Parent);
+root.render(<HeadingComponent/>);
