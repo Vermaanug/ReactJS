@@ -37,13 +37,22 @@
     cursor: pointer;
 }
 
+.login-btn{
+    cursor: pointer;
+    width: 100px;
+    height: 33px;
+    margin-top: 15px;
+}
+
 .fliter {
     padding: 10px;
+    display: flex;
 }
 
 .fliter-btn {
     cursor: pointer;
     padding: 10px;
+    margin-left: 1rem;
 }
 
 .res-container {
@@ -69,5 +78,13 @@
 
 .res-logo {
     width: 100%;
+}
+
+.Search {
+    padding: 10px;
+}
+
+.search-box {
+    height: 30px;
 }
 
