@@ -1,77 +1,42 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
+import Shimmeer from "./Shimmer";
 
 const Body = () => {
-  const [listofRestaurant, setListOfRestaurant] = useState([
-    {
-      id: "1",
-      restaurantname: "Dominios",
-      cusisine: "Pizza , Italian",
-      avgrating: "4.3",
-      minDeliverytime: "40",
-    },
-    {
-      id: "2",
-      restaurantname: "KFC",
-      cusisine: "Burger , Italian",
-      avgrating: "4.2",
-      minDeliverytime: "30",
-    },
-    {
-      id: "3",
-      restaurantname: "Garam Masala",
-      cusisine: "Food , Indian",
-      avgrating: "3.9",
-      minDeliverytime: "40",
-    },
-    {
-      id: "4",
-      restaurantname: "CSB",
-      cusisine: "Chai , Indian",
-      avgrating: "4.4",
-      minDeliverytime: "10",
-    },
-  ]);
+  const [listofRestaurant, setListOfRestaurant] = useState([]);
 
-  const [filterRestaurant, setfilterRestaurant] = useState([
-    {
-      id: "1",
-      restaurantname: "Dominios",
-      cusisine: "Pizza , Italian",
-      avgrating: "4.3",
-      minDeliverytime: "40",
-    },
-    {
-      id: "2",
-      restaurantname: "KFC",
-      cusisine: "Burger , Italian",
-      avgrating: "4.2",
-      minDeliverytime: "30",
-    },
-    {
-      id: "3",
-      restaurantname: "Garam Masala",
-      cusisine: "Food , Indian",
-      avgrating: "3.9",
-      minDeliverytime: "40",
-    },
-    {
-      id: "4",
-      restaurantname: "CSB",
-      cusisine: "Chai , Indian",
-      avgrating: "4.4",
-      minDeliverytime: "10",
-    },
-  ]);
+  const [filterRestaurant, setfilterRestaurant] = useState([]);
 
   const [searchText, setsearchText] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/mapi/homepage/getCards?lat=19.1725542&lng=72.942537"
+    );
+
+    const json = await data.json();
+
+
+    setListOfRestaurant(json?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
+    setfilterRestaurant(json?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
+
+    // console.log(listofRestaurant)
+
+  };
+
   //Conditional Rendering
   // if(listofRestaurant.length === 0){
   //   return <h2>Loading</h2>
   // }
   console.log("Body Render");
+  // console.log(listofRestaurant)
+  
 
-  return (
+  return  listofRestaurant.length === 0 ? <Shimmeer/> : (
     <div className="body">
       <div className="fliter">
         <div className="Search">
@@ -86,7 +51,7 @@ const Body = () => {
           <button
             onClick={() => {
               const fliter = listofRestaurant.filter((res) =>
-                res.restaurantname
+                res.info.name
                   .toLowerCase()
                   .includes(searchText.toLowerCase())
               );
@@ -101,7 +66,7 @@ const Body = () => {
           className="fliter-btn"
           onClick={() => {
             const fliterlist = listofRestaurant.filter(
-              (res) => res.avgrating > 4
+              (res) => res.info.avgRating > 4.4
             );
             setfilterRestaurant(fliterlist);
           }}
@@ -111,7 +76,7 @@ const Body = () => {
       </div>
       <div className="res-container">
         {filterRestaurant.map((restaurant) => {
-          return <RestaurantCard key={restaurant.id} resData={restaurant} />;
+          return <RestaurantCard key={restaurant.info.id} resData={restaurant} />;
         })}
       </div>
     </div>

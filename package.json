@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "This is ReactJs Notes",
   "scripts": {
-    "start":"parcel Index.html",
-    "build":"parcel build Index.html",
+    "start": "parcel Index.html",
+    "build": "parcel build Index.html",
     "test": "jest"
   },
   "repository": {
@@ -23,9 +23,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3"
   },
-  "browserlist":[
+  "browserlist": [
     "last 2 Chrome version"
   ]
 }
