@@ -1,60 +1,42 @@
-import { useEffect, useState } from "react";
 import { DISH_URL } from "../utilis/constants";
 import Shimmeer from "./Shimmer";
+import useRestaurantMenu from "../utilis/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [resInfo, setresInfo] = useState(null);
-  const [resMenu, setresMenu] = useState(null);
+  const resInfo = useRestaurantMenu();
+  const resMenu = resInfo;
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  if (resInfo == null) return <Shimmeer />;
 
-  const fetchMenu = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=19.1725542&lng=72.942537&restaurantId=16753&catalog_qa=undefined&submitAction=ENTER"
-    );
+  const { name, locality, areaName, cuisines } =
+    resMenu?.cards[2]?.card?.card?.info;
 
-    const json = await data.json();
-    setresInfo(json?.data?.cards[2]?.card);
-    setresMenu(
-      json?.data?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
-    );
-    console.log(resMenu)
-  };
+  const menuItems =
+    resMenu?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card
+      ?.itemCards || resMenu?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.carousel ;
 
-  const { name, locality, areaName, cuisines } = resInfo?.card?.info;
+  console.log(menuItems)
+  
 
-  const menuItems = resMenu?.itemCards;
-
-  return resInfo === null ? (
-    <Shimmeer />
-  ) : (
+  return (
     <div className="res-info-container">
       <div className="res-info">
         <h1>{name}</h1>
-        <p>
-          {cuisines[0]}, {cuisines[1]}
-        </p>
+        <p>{cuisines[0]}</p>
         <p>
           {locality}, {areaName}
         </p>
       </div>
-      <div className="menu-items">
-        {menuItems.map((item, index) => {
-          return (
-            <div key={index} className="card">
-              <div className="menu-info">
-                <h3>{item?.card?.info?.name}</h3>
-                <p>Rs {item?.card?.info?.price / 100}</p>
-              </div>
-              <div className="menu-img">
-                <img src={DISH_URL + item?.card?.info?.imageId} alt="Dish" />
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {menuItems?.map((item) => {
+        const { name, price ,imageId , id} = item?.card?.info || item?.dish?.info;
+        return (
+          <div key={id} className="menu-info"> 
+            <h5>{name}</h5>
+            <h5>{price}</h5>
+            <img src={DISH_URL + imageId}/>
+        </div>
+        );
+      })}
     </div>
   );
 };
