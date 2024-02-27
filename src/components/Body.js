@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard ,{withPromotedLabel} from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Shimmeer from "./Shimmer";
@@ -11,31 +11,32 @@ const Body = () => {
 
   const [searchText, setsearchText] = useState("");
 
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/mapi/homepage/getCards?lat=19.1725542&lng=72.942537"
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.1909566&lng=72.9788257"
     );
 
     const json = await data.json();
 
+
     setListOfRestaurant(
-      json?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle
-        ?.restaurants
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setfilterRestaurant(
-      json?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle
-        ?.restaurants
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
 
     // console.log(listofRestaurant)
   };
 
   const status = useOnlineStatus();
-  console.log(status)
+  // console.log(listofRestaurant)
 
   if (status === false) return (<h1> Check your internet connection </h1>);
 
@@ -92,7 +93,7 @@ const Body = () => {
               key={restaurant.info.id}
               to={"/restaurant/" + restaurant.info.id}
             >
-              <RestaurantCard resData={restaurant} />
+              {restaurant.info.promoted ? <RestaurantCardPromoted  resData={restaurant}/> : <RestaurantCard resData={restaurant}/>}
             </Link>
           );
         })}
