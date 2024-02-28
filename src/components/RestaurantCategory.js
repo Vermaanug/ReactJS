@@ -1,4 +1,4 @@
-import ListItem from "./ListItem";
+import ItemList from "./ItemList";
 // import { useState } from "react";
 const RestaurantCategory = ({ data , ShowItem , setShowIndex }) => {
   
@@ -20,7 +20,7 @@ const RestaurantCategory = ({ data , ShowItem , setShowIndex }) => {
         </div>
       </div>
       <div className="flex justify-center">
-        {ShowItem && <ListItem Items={data?.itemCards}/>}
+        {ShowItem && <ItemList Items={data?.itemCards}/>}
       </div>
     </div>
   );

@@ -1,11 +1,14 @@
 import { LOGO_URL } from "../utilis/constants";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   // const btnName = "Login";
 
   const [btnName, setbtnName] = useState("Login");
+
+  const cartItems = useSelector((store) => store.cart.items)
 
   return (
     <div className="flex justify-around p-4 shadow-lg font-mono">
@@ -25,6 +28,9 @@ const Header = () => {
           </li>
           <li className="pl-6 pr-9">
             <Link to="/contact">Contact</Link>
+          </li>
+          <li className="pl-6 pr-9">
+            <Link to="/cart">Cart({cartItems.length})</Link>
           </li>
           <button
             className="px-6 py-1 bg-blue-500 rounded-sm" 
